@@ -4,6 +4,8 @@
 
 package io.flutter.plugins.urllauncher;
 
+import static android.content.Intent.CATEGORY_BROWSABLE;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -40,6 +42,7 @@ class UrlLauncher {
   boolean canLaunch(String url) {
     Intent launchIntent = new Intent(Intent.ACTION_VIEW);
     launchIntent.setData(Uri.parse(url));
+    launchIntent.addCategory(CATEGORY_BROWSABLE);
     ComponentName componentName =
         launchIntent.resolveActivity(applicationContext.getPackageManager());
 
