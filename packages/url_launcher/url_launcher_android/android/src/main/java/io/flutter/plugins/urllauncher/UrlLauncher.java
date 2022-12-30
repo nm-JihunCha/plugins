@@ -46,7 +46,7 @@ class UrlLauncher {
     Log.i(TAG, "canLaunch test ");
 
     if (componentName == null) {
-      Log.i(TAG, "component name for " + url + " is null");
+      Log.i(TAG, "component name for - " + url + " is null");
       return false;
     } else {
       Log.i(TAG, "component name for " + url + " is " + componentName.toShortString());
