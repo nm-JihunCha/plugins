@@ -43,6 +43,8 @@ class UrlLauncher {
     Intent launchIntent = new Intent(Intent.ACTION_VIEW);
     launchIntent.setData(Uri.parse(url));
     launchIntent.addCategory(CATEGORY_BROWSABLE);
+    launchIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
     ComponentName componentName =
         launchIntent.resolveActivity(applicationContext.getPackageManager());
 
