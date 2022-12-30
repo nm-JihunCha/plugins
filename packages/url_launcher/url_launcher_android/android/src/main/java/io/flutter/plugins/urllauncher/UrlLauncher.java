@@ -42,7 +42,7 @@ class UrlLauncher {
   boolean canLaunch(String url) {
     Intent launchIntent = new Intent(Intent.ACTION_VIEW);
     launchIntent.setData(Uri.parse(url));
-    launchIntent.addCategory(CATEGORY_BROWSABLE);
+//    launchIntent.addCategory(CATEGORY_BROWSABLE);
     launchIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
     ComponentName componentName =
@@ -50,14 +50,16 @@ class UrlLauncher {
 
     Log.i(TAG, "canLaunch test ");
 
-    if (componentName == null) {
-      Log.i(TAG, "component name for - " + url + " is null");
-      return false;
-    } else {
-      Log.i(TAG, "component name for " + url + " is " + componentName.toShortString());
-      return !"{com.android.fallback/com.android.fallback.Fallback}"
-          .equals(componentName.toShortString());
-    }
+    return true;
+
+//    if (componentName == null) {
+//      Log.i(TAG, "component name for - " + url + " is null");
+//      return false;
+//    } else {
+//      Log.i(TAG, "component name for " + url + " is " + componentName.toShortString());
+//      return !"{com.android.fallback/com.android.fallback.Fallback}"
+//          .equals(componentName.toShortString());
+//    }
   }
 
   /**
