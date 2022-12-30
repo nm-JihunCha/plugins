@@ -23,6 +23,8 @@ class UrlLauncherAndroid extends UrlLauncherPlatform {
 
   @override
   Future<bool> canLaunch(String url) async {
+    print('test2 - canLaunch - $url');
+
     final bool canLaunchSpecificUrl = await _canLaunchUrl(url);
     if (!canLaunchSpecificUrl) {
       final String scheme = _getUrlScheme(url);
