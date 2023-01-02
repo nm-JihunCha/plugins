@@ -51,7 +51,7 @@ class UrlLauncher {
         Intent launchIntent = new Intent(Intent.ACTION_VIEW);
 
         Log.i(TAG, "canLaunchh - " + url);
-        if (url.contains("intent://")) {
+        if (url.contains("intent:")) {
             Log.i(TAG, "here!");
 //            launchIntent.addCategory(Intent.ACTION_VIEW);
 //            launchIntent.toUri(Intent.URI_INTENT_SCHEME);
