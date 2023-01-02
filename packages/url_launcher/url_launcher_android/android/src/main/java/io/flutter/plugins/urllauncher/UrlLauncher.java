@@ -47,7 +47,7 @@ class UrlLauncher {
      */
     boolean canLaunch(String url) {
         // TODO(nm-JihunCha): is it possible to check canLaunch here?
-        if (url.contains("intent:") || url.contains("newsmartpib:") || url.contains("com.wooricard.wcard:")) {
+        if (url.contains("intent:")) {
             return true;
         }
 
@@ -81,6 +81,7 @@ class UrlLauncher {
      * {@link LaunchStatus#ACTIVITY_NOT_FOUND} if there's no activity found to handle {@code
      * launchIntent}. {@link LaunchStatus#OK} otherwise.
      */
+    // TODO(nm-JihunCha): wooribank app not work
     LaunchStatus launch(
             String url,
             Bundle headersBundle,
