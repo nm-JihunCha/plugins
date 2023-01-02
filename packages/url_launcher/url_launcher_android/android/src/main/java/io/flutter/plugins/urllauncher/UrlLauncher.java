@@ -114,6 +114,7 @@ class UrlLauncher {
         try {
             activity.startActivity(launchIntent);
         } catch (ActivityNotFoundException e) {
+            Log.e(TAG, "ActivityNotFoundException - " + e);
             return LaunchStatus.ACTIVITY_NOT_FOUND;
         }
 
