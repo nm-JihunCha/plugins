@@ -58,6 +58,12 @@ class UrlLauncher {
 
             try {
                 launchIntent.parseUri(url, Intent.URI_INTENT_SCHEME);
+                try {
+                    activity.startActivity(launchIntent);
+                } catch (ActivityNotFoundException e) {
+                    Log.i(TAG, "ActivityNotFoundException e - " + e);
+                    return false;
+                }
             } catch (URISyntaxException e) {
                 Log.i(TAG, "e - " + e);
                 e.printStackTrace();
