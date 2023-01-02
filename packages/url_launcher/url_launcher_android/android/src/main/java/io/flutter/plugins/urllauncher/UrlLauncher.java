@@ -4,8 +4,6 @@
 
 package io.flutter.plugins.urllauncher;
 
-import static android.content.Intent.CATEGORY_BROWSABLE;
-
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -49,55 +47,20 @@ class UrlLauncher {
      */
     boolean canLaunch(String url) {
         Intent launchIntent = new Intent(Intent.ACTION_VIEW);
+        Log.i(TAG, "canLaunch/url - " + url);
 
-        Log.i(TAG, "canLaunchh - " + url);
         if (url.contains("intent:")) {
-            Log.i(TAG, "here!");
-//            launchIntent.addCategory(Intent.ACTION_VIEW);
-//            launchIntent.toUri(Intent.URI_INTENT_SCHEME);
-
-            try {
-                Intent j = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
-                try {
-                    Log.i(TAG, "ttt123");
-                    activity.startActivity(j);
-                    return false;
-                } catch (ActivityNotFoundException e) {
-                    Log.i(TAG, "ActivityNotFoundException e - " + e);
-                    return false;
-                }
-            } catch (URISyntaxException e) {
-                Log.i(TAG, "e - " + e);
-                e.printStackTrace();
-            }
-//            launchIntent.addFlags(Intent.URI_INTENT_SCHEME);
-//            (Intent.ACTION_VIEW)
-//            Intent i = Intent.parseUri(Uri.parse(url), Intent.URI_INTENT_SCHEME);
-//            startActivity(i)
+            return true;
         }
-//        else {
-//            launchIntent.addCategory(Intent.ACTION_VIEW);
-//        }
-
-//        launchIntent.addCategory(Intent.ACTION_VIEW);
-//    Intent launchIntent = applicationContext.getPackageManager().getLaunchIntentForPackage("com.healerb.dna");
 
         launchIntent.setData(Uri.parse(url));
-//    launchIntent.addCategory(CATEGORY_BROWSABLE);
         launchIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         ComponentName componentName =
                 launchIntent.resolveActivity(applicationContext.getPackageManager());
-//            launchIntent.resolveActivity(applicationContext.getPackageManager().getLaunchIntentForPackage("com.package.name"));
-//    getPackageManager().getLaunchIntentForPackage("com.package.name");
-//    com.healerb.dna
-
-        Log.i(TAG, "canLaunch test ");
-
-//    return true;
 
         if (componentName == null) {
-            Log.i(TAG, "component name for - " + url + " is null");
+            Log.e(TAG, "component name - " + url + " is null");
             return false;
         } else {
             Log.i(TAG, "component name for " + url + " is " + componentName.toShortString());
@@ -128,7 +91,15 @@ class UrlLauncher {
         }
 
         Intent launchIntent;
-        if (useWebView) {
+        if (url.contains("intent:")) {
+            try {
+                launchIntent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
+            } catch (URISyntaxException e) {
+                Log.e(TAG, "URISyntaxException - " + e);
+                e.printStackTrace();
+                return LaunchStatus.ACTIVITY_NOT_FOUND;
+            }
+        } else if (useWebView) {
             launchIntent =
                     WebViewActivity.createIntent(
                             activity, url, enableJavaScript, enableDomStorage, headersBundle);
@@ -138,8 +109,6 @@ class UrlLauncher {
                             .setData(Uri.parse(url))
                             .putExtra(Browser.EXTRA_HEADERS, headersBundle);
         }
-
-        Log.e(TAG, "launch - " + url);
 
         try {
             activity.startActivity(launchIntent);
