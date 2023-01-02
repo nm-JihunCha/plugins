@@ -46,13 +46,13 @@ class UrlLauncher {
      * Returns whether the given {@code url} resolves into an existing component.
      */
     boolean canLaunch(String url) {
-        Intent launchIntent = new Intent(Intent.ACTION_VIEW);
-        Log.i(TAG, "canLaunch/url - " + url);
-
         // TODO(nm-JihunCha): is it possible to check canLaunch here?
-        if (url.contains("intent:")) {
+        if (url.contains("intent:") || url.contains("newsmartpib:") || url.contains("com.wooricard.wcard:")) {
             return true;
         }
+
+        Intent launchIntent = new Intent(Intent.ACTION_VIEW);
+        Log.i(TAG, "canLaunch/url - " + url);
 
         launchIntent.setData(Uri.parse(url));
         launchIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
