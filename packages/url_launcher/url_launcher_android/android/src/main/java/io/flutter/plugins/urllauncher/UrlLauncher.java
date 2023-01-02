@@ -48,7 +48,7 @@ class UrlLauncher {
      * Returns whether the given {@code url} resolves into an existing component.
      */
     boolean canLaunch(String url) {
-        Intent launchIntent = new Intent();
+        Intent launchIntent = new Intent(Intent.ACTION_VIEW);
 
         Log.i(TAG, "canLaunchh - " + url);
         if (url.contains("intent://")) {
@@ -57,10 +57,10 @@ class UrlLauncher {
 //            launchIntent.toUri(Intent.URI_INTENT_SCHEME);
 
             try {
-                launchIntent.parseUri(url, Intent.URI_INTENT_SCHEME);
+                Intent j = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
                 try {
                     Log.i(TAG, "ttt");
-                    activity.startActivity(launchIntent);
+                    activity.startActivity(j);
                     return false;
                 } catch (ActivityNotFoundException e) {
                     Log.i(TAG, "ActivityNotFoundException e - " + e);
@@ -79,7 +79,7 @@ class UrlLauncher {
 //            launchIntent.addCategory(Intent.ACTION_VIEW);
 //        }
 
-        launchIntent.addCategory(Intent.ACTION_VIEW);
+//        launchIntent.addCategory(Intent.ACTION_VIEW);
 //    Intent launchIntent = applicationContext.getPackageManager().getLaunchIntentForPackage("com.healerb.dna");
 
         launchIntent.setData(Uri.parse(url));
