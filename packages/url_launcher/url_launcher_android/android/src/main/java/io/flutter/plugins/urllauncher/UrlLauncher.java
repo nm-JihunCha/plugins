@@ -40,26 +40,31 @@ class UrlLauncher {
 
   /** Returns whether the given {@code url} resolves into an existing component. */
   boolean canLaunch(String url) {
-    Intent launchIntent = new Intent(Intent.ACTION_VIEW);
+//    Intent launchIntent = new Intent(Intent.ACTION_VIEW);
+    Intent launchIntent = applicationContext.getPackageManager().getLaunchIntentForPackage("com.healerb.dna");
+
     launchIntent.setData(Uri.parse(url));
 //    launchIntent.addCategory(CATEGORY_BROWSABLE);
     launchIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
     ComponentName componentName =
         launchIntent.resolveActivity(applicationContext.getPackageManager());
+//            launchIntent.resolveActivity(applicationContext.getPackageManager().getLaunchIntentForPackage("com.package.name"));
+//    getPackageManager().getLaunchIntentForPackage("com.package.name");
+//    com.healerb.dna
 
     Log.i(TAG, "canLaunch test ");
 
-    return true;
+//    return true;
 
-//    if (componentName == null) {
-//      Log.i(TAG, "component name for - " + url + " is null");
-//      return false;
-//    } else {
-//      Log.i(TAG, "component name for " + url + " is " + componentName.toShortString());
-//      return !"{com.android.fallback/com.android.fallback.Fallback}"
-//          .equals(componentName.toShortString());
-//    }
+    if (componentName == null) {
+      Log.i(TAG, "component name for - " + url + " is null");
+      return false;
+    } else {
+      Log.i(TAG, "component name for " + url + " is " + componentName.toShortString());
+      return !"{com.android.fallback/com.android.fallback.Fallback}"
+          .equals(componentName.toShortString());
+    }
   }
 
   /**
