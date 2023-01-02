@@ -49,7 +49,8 @@ class UrlLauncher {
         Intent launchIntent = new Intent(Intent.ACTION_VIEW);
         Log.i(TAG, "canLaunch/url - " + url);
 
-        if (url.contains("intent:")) {
+        // TODO(nm-JihunCha): is it possible to check canLaunch here?
+        if (url.contains("intent:") || url.contains("newsmartpib:")) {
             return true;
         }
 
@@ -91,7 +92,7 @@ class UrlLauncher {
         }
 
         Intent launchIntent;
-        if (url.contains("intent:")) {
+        if (url.contains("intent:") || url.contains("newsmartpib:")) {
             try {
                 launchIntent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
             } catch (URISyntaxException e) {
