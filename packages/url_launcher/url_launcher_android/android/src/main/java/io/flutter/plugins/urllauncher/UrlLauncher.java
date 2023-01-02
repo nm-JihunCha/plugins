@@ -40,8 +40,8 @@ class UrlLauncher {
 
   /** Returns whether the given {@code url} resolves into an existing component. */
   boolean canLaunch(String url) {
-//    Intent launchIntent = new Intent(Intent.ACTION_VIEW);
-    Intent launchIntent = applicationContext.getPackageManager().getLaunchIntentForPackage("com.healerb.dna");
+    Intent launchIntent = new Intent(Intent.ACTION_VIEW);
+//    Intent launchIntent = applicationContext.getPackageManager().getLaunchIntentForPackage("com.healerb.dna");
 
     launchIntent.setData(Uri.parse(url));
 //    launchIntent.addCategory(CATEGORY_BROWSABLE);
