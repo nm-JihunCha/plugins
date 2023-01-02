@@ -59,7 +59,7 @@ class UrlLauncher {
             try {
                 Intent j = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
                 try {
-                    Log.i(TAG, "ttt");
+                    Log.i(TAG, "ttt123");
                     activity.startActivity(j);
                     return false;
                 } catch (ActivityNotFoundException e) {
