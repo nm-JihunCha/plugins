@@ -107,9 +107,10 @@ class UrlLauncher {
                             activity, url, enableJavaScript, enableDomStorage, headersBundle);
         } else {
             launchIntent =
-                    new Intent(Intent.ACTION_VIEW)
-                            .setData(Uri.parse(url))
-                            .putExtra(Browser.EXTRA_HEADERS, headersBundle);
+//                    new Intent(Intent.ACTION_VIEW)
+//                            .setData(Uri.parse(url))
+//                            .putExtra(Browser.EXTRA_HEADERS, headersBundle);
+                        new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         }
 
         try {
