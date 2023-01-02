@@ -81,6 +81,8 @@ final class MethodCallHandlerImpl implements MethodCallHandler {
   }
 
   private void onCanLaunch(Result result, String url) {
+    Log.i(TAG, "onCanLaunch ");
+
     result.success(urlLauncher.canLaunch(url));
   }
 

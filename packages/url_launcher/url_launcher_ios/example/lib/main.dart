@@ -42,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _launchInBrowser(String url) async {
     final UrlLauncherPlatform launcher = UrlLauncherPlatform.instance;
+
     if (await launcher.canLaunch(url)) {
       await launcher.launch(
         url,
