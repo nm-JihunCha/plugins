@@ -130,8 +130,6 @@ Future<bool> launch(
 /// details.
 @Deprecated('Use canLaunchUrl instead')
 Future<bool> canLaunch(String urlString) async {
-  print('canLaunch - $urlString');
-
   return UrlLauncherPlatform.instance.canLaunch(urlString);
 }
 
