@@ -51,6 +51,10 @@ class UrlLauncher {
             return true;
         }
 
+        if (url.contains("com.wooricard.wcard:") || url.contains("newsmartpib:")) {
+            return true;
+        }
+
         Intent launchIntent = new Intent(Intent.ACTION_VIEW);
         Log.i(TAG, "canLaunch/url - " + url);
 
