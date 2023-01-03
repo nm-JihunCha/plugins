@@ -52,9 +52,6 @@ class UrlLauncher {
             return true;
         }
 
-        if (url.contains("com.wooricard.wcard:") || url.contains("newsmartpib:")) {
-            return true;
-        }
 
         Intent launchIntent = new Intent(Intent.ACTION_VIEW);
         Log.i(TAG, "canLaunch/url - " + url);
@@ -107,12 +104,10 @@ class UrlLauncher {
                 return LaunchStatus.ACTIVITY_NOT_FOUND;
             }
         } else if (useWebView) {
-            Log.i(TAG, "useWebView - " + url);
             launchIntent =
                     WebViewActivity.createIntent(
                             activity, url, enableJavaScript, enableDomStorage, headersBundle);
         } else {
-            Log.i(TAG, "else - " + url);
             launchIntent =
                     new Intent(Intent.ACTION_VIEW)
                             .setData(Uri.parse(url))
