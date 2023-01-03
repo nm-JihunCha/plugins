@@ -46,6 +46,7 @@ class UrlLauncher {
      * Returns whether the given {@code url} resolves into an existing component.
      */
     boolean canLaunch(String url) {
+        Log.i(TAG, "canLaunch - " + url);
         // TODO(nm-JihunCha): is it possible to check canLaunch here?
         if (url.contains("intent:")) {
             return true;
@@ -106,10 +107,12 @@ class UrlLauncher {
                 return LaunchStatus.ACTIVITY_NOT_FOUND;
             }
         } else if (useWebView) {
+            Log.i(TAG, "useWebView - " + url);
             launchIntent =
                     WebViewActivity.createIntent(
                             activity, url, enableJavaScript, enableDomStorage, headersBundle);
         } else {
+            Log.i(TAG, "else - " + url);
             launchIntent =
                     new Intent(Intent.ACTION_VIEW)
                             .setData(Uri.parse(url))
