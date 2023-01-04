@@ -56,8 +56,9 @@ class UrlLauncher {
         Log.i(TAG, "canLaunch/url - " + url);
 
         launchIntent.setData(Uri.parse(url));
-        launchIntent.addCategory(Intent.CATEGORY_DEFAULT);
         launchIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        Log.i(TAG, "test2 - " + launchIntent.getDataString());
 
         ComponentName componentName =
                 launchIntent.resolveActivity(applicationContext.getPackageManager());
