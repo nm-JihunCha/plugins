@@ -58,14 +58,11 @@ class UrlLauncher {
         launchIntent.setData(Uri.parse(url));
         launchIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-        Log.i(TAG, "test2 - " + launchIntent.getDataString());
-
         ComponentName componentName =
                 launchIntent.resolveActivity(applicationContext.getPackageManager());
 
         if (componentName == null) {
             Log.e(TAG, "component name - " + url + " is null");
-//            launchIntent.setComponent(new ComponentName("com.wooribank.smart.nplib", ))
             return false;
         } else {
             Log.i(TAG, "component name for " + url + " is " + componentName.toShortString());
