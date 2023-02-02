@@ -48,6 +48,7 @@ class UrlLauncher {
     boolean canLaunch(String url) {
         // TODO(nm-JihunCha): is it possible to check canLaunch here?
         if (url.contains("intent:")) {
+            Log.i(TAG, "canLaunch/containsIntent - " + url);
             return true;
         }
 
