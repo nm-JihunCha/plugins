@@ -97,6 +97,7 @@ class UrlLauncher {
             return LaunchStatus.NO_ACTIVITY;
         }
 
+        Log.i(TAG, "launch/213333 - " + url);
         Log.i(TAG, "launch/url - " + url);
         if (url.contains("intent:") && url.contains("mvaccine:")) {
             url = "market://details?id=com.TouchEn.mVaccine.webs";
