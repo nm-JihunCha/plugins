@@ -52,6 +52,7 @@ class UrlLauncher {
             Log.i(TAG, "dsadadsa - " );
             return true;
         }
+        Log.i(TAG, "canLaunch/123412341234 - " + url);
 
         Intent launchIntent = new Intent(Intent.ACTION_VIEW);
         Log.i(TAG, "canLaunch/url - " + url);
