@@ -49,6 +49,7 @@ class UrlLauncher {
         Log.i(TAG, "canLaunch - " + url);
         // TODO(nm-JihunCha): is it possible to check canLaunch here?
         if (url.contains("intent:")) {
+            Log.i(TAG, "dsadadsa - " );
             return true;
         }
 
@@ -95,6 +96,12 @@ class UrlLauncher {
         if (activity == null) {
             return LaunchStatus.NO_ACTIVITY;
         }
+
+        Log.i(TAG, "launch/url - " + url);
+        if (url.contains("intent:") && url.contains("mvaccine:")) {
+            url = "market://details?id=com.TouchEn.mVaccine.webs";
+        }
+        Log.i(TAG, "launch/url_result - " + url);
 
         Intent launchIntent;
         if (url.contains("intent:")) {
