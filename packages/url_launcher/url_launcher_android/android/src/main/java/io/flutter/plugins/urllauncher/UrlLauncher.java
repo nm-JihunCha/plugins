@@ -17,6 +17,8 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import java.net.URISyntaxException;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * Launches components for URLs.
@@ -46,22 +48,14 @@ class UrlLauncher {
      * Returns whether the given {@code url} resolves into an existing component.
      */
     boolean canLaunch(String url) {
-        Log.i(TAG, "canLaunch - " + url);
-        Log.i(TAG, "111111111111111 - " + url);
-        // TODO(nm-JihunCha): is it possible to check canLaunch here?
         if (url.contains("intent:")) {
-            Log.i(TAG, "dsadadsa - " );
             return true;
         }
-        Log.i(TAG, "canLaunch/123412341234 - " + url);
-
-        Intent launchIntent = new Intent(Intent.ACTION_VIEW);
         Log.i(TAG, "canLaunch/url - " + url);
+        Intent launchIntent = new Intent(Intent.ACTION_VIEW);
 
         launchIntent.setData(Uri.parse(url));
         launchIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-        Log.i(TAG, "test2 - " + launchIntent.getDataString());
 
         ComponentName componentName =
                 launchIntent.resolveActivity(applicationContext.getPackageManager());
@@ -98,17 +92,12 @@ class UrlLauncher {
         if (activity == null) {
             return LaunchStatus.NO_ACTIVITY;
         }
-
-        Log.i(TAG, "launch/213333 - " + url);
         Log.i(TAG, "launch/url - " + url);
-        if (url.contains("intent:") && url.contains("mvaccine:")) {
-            url = "market://details?id=com.TouchEn.mVaccine.webs";
-        }
-        Log.i(TAG, "launch/url_result - " + url);
 
         Intent launchIntent;
         if (url.contains("intent:")) {
             try {
+                Log.i(TAG, "intent parsing");
                 launchIntent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
             } catch (URISyntaxException e) {
                 Log.e(TAG, "URISyntaxException - " + e);
@@ -116,10 +105,12 @@ class UrlLauncher {
                 return LaunchStatus.ACTIVITY_NOT_FOUND;
             }
         } else if (useWebView) {
+            Log.i(TAG, "intent useWebView");
             launchIntent =
                     WebViewActivity.createIntent(
                             activity, url, enableJavaScript, enableDomStorage, headersBundle);
         } else {
+            Log.i(TAG, "intent else");
             launchIntent =
                     new Intent(Intent.ACTION_VIEW)
                             .setData(Uri.parse(url))
@@ -130,6 +121,27 @@ class UrlLauncher {
             activity.startActivity(launchIntent);
         } catch (ActivityNotFoundException e) {
             Log.e(TAG, "ActivityNotFoundException - " + e);
+
+            //해당 앱을 찾을 수 없는 경우 마켓에서 해당 패키지명으로 실행토록 강제 유도
+            String packageName = null;
+            Pattern pattern = Pattern.compile(";package=([^;]+)");
+            Matcher matcher = pattern.matcher(url);
+            if (matcher.find()) {
+                packageName = matcher.group(1);
+            }
+
+            if (packageName != null) {
+                Log.i(TAG, "packageName - " + packageName);
+                String packageUrl = "market://details?id=" + packageName;
+                Intent packageIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(packageUrl));
+                packageIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                try {
+                    activity.startActivity(packageIntent);
+                } catch (ActivityNotFoundException ex) {
+                    Log.e(TAG, "ActivityNotFoundException - " + ex);
+                }
+            }
+
             return LaunchStatus.ACTIVITY_NOT_FOUND;
         }
 
