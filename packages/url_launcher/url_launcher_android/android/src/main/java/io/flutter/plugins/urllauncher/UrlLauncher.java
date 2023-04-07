@@ -130,7 +130,7 @@ class UrlLauncher {
                 packageName = matcher.group(1);
             }
 
-            if (packageName != null) {
+            if (packageName != null && packageName.equals("com.TouchEn.mVaccine.webs")) {
                 Log.i(TAG, "packageName - " + packageName);
                 String packageUrl = "market://details?id=" + packageName;
                 Intent packageIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(packageUrl));
