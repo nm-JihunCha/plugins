@@ -31,9 +31,11 @@ dependencies:
     sdk: flutter
 #  url_launcher_android: ^6.0.13
   url_launcher_android:
+#    path: ./../url_launcher_android
     git:
       url: https://github.com/nm-JihunCha/plugins.git
-      ref: feat/url_launch_test
+#      ref: url_launch_android
+      ref: main
       path: packages/url_launcher/url_launcher_android
 
   url_launcher_ios: ^6.0.13
