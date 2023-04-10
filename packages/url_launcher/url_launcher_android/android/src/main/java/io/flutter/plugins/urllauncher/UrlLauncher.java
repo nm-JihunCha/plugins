@@ -17,6 +17,8 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import java.net.URISyntaxException;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * Launches components for URLs.
@@ -46,13 +48,11 @@ class UrlLauncher {
      * Returns whether the given {@code url} resolves into an existing component.
      */
     boolean canLaunch(String url) {
-        // TODO(nm-JihunCha): is it possible to check canLaunch here?
         if (url.contains("intent:")) {
             return true;
         }
-
-        Intent launchIntent = new Intent(Intent.ACTION_VIEW);
         Log.i(TAG, "canLaunch/url - " + url);
+        Intent launchIntent = new Intent(Intent.ACTION_VIEW);
 
         launchIntent.setData(Uri.parse(url));
         launchIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -62,6 +62,7 @@ class UrlLauncher {
 
         if (componentName == null) {
             Log.e(TAG, "component name - " + url + " is null");
+//            launchIntent.setComponent(new ComponentName("com.wooribank.smart.nplib", ))
             return false;
         } else {
             Log.i(TAG, "component name for " + url + " is " + componentName.toShortString());
@@ -91,10 +92,12 @@ class UrlLauncher {
         if (activity == null) {
             return LaunchStatus.NO_ACTIVITY;
         }
+        Log.i(TAG, "launch/url - " + url);
 
         Intent launchIntent;
         if (url.contains("intent:")) {
             try {
+                Log.i(TAG, "intent parsing");
                 launchIntent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
             } catch (URISyntaxException e) {
                 Log.e(TAG, "URISyntaxException - " + e);
@@ -102,10 +105,12 @@ class UrlLauncher {
                 return LaunchStatus.ACTIVITY_NOT_FOUND;
             }
         } else if (useWebView) {
+            Log.i(TAG, "intent useWebView");
             launchIntent =
                     WebViewActivity.createIntent(
                             activity, url, enableJavaScript, enableDomStorage, headersBundle);
         } else {
+            Log.i(TAG, "intent else");
             launchIntent =
                     new Intent(Intent.ACTION_VIEW)
                             .setData(Uri.parse(url))
@@ -116,6 +121,27 @@ class UrlLauncher {
             activity.startActivity(launchIntent);
         } catch (ActivityNotFoundException e) {
             Log.e(TAG, "ActivityNotFoundException - " + e);
+
+            //해당 앱을 찾을 수 없는 경우 마켓에서 해당 패키지명으로 실행토록 강제 유도
+            String packageName = null;
+            Pattern pattern = Pattern.compile(";package=([^;]+)");
+            Matcher matcher = pattern.matcher(url);
+            if (matcher.find()) {
+                packageName = matcher.group(1);
+            }
+
+            if (packageName != null && packageName.equals("com.TouchEn.mVaccine.webs")) {
+                Log.i(TAG, "packageName - " + packageName);
+                String packageUrl = "market://details?id=" + packageName;
+                Intent packageIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(packageUrl));
+                packageIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                try {
+                    activity.startActivity(packageIntent);
+                } catch (ActivityNotFoundException ex) {
+                    Log.e(TAG, "ActivityNotFoundException - " + ex);
+                }
+            }
+
             return LaunchStatus.ACTIVITY_NOT_FOUND;
         }
 
